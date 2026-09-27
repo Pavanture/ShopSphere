@@ -1,0 +1,8 @@
+.idea/
+*.iml
+
+elmavia-backend/target/
+elmavia-frontend/node_modules/
+elmavia-frontend/dist/
+
+.env
