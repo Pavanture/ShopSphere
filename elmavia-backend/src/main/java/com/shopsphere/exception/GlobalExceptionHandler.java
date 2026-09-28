@@ -16,10 +16,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Centralized exception handling for all REST controllers.
- * Ensures consistent error response structure across the API.
- */
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
