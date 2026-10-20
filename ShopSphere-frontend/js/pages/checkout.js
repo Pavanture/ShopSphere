@@ -43,10 +43,14 @@ export async function renderCheckout(container) {
               .map(
                 (i) => `
               <div class="row-item">
-                <div class="row-thumb"></div>
+                <div class="row-thumb">
+                  ${i.imageUrl
+                    ? `<img src="${escapeHtml(i.imageUrl)}" alt="${escapeHtml(i.product.name)}" />`
+                    : `<span>${escapeHtml(i.product.name.slice(0, 2))}</span>`}
+                </div>
                 <div class="row-info">
                   <div class="name">${escapeHtml(i.product.name)}</div>
-                  <div class="meta">Qty ${i.quantity} × ${formatMoney(i.product.price)}</div>
+                  <div class="meta">${[i.colorName, i.size].filter(Boolean).map(escapeHtml).join(' · ')}${i.colorName || i.size ? ' · ' : ''}Qty ${i.quantity} × ${formatMoney(i.product.price)}</div>
                 </div>
                 <span class="ticket">${formatMoney(i.lineTotal)}</span>
               </div>`

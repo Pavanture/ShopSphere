@@ -1,0 +1,112 @@
+ .../.env.example                                   |   8 [32m+[m
+ {elmavia-backend => ShopSphere-backend}/.gitignore |   0
+ ShopSphere-backend/Dockerfile.vercel               |  11 [32m++[m
+ {elmavia-backend => ShopSphere-backend}/README.md  |  77 [32m+++++++++[m
+ {elmavia-backend => ShopSphere-backend}/pom.xml    |   0
+ .../java/com/shopsphere/ShopSphereApplication.java |   0
+ .../java/com/shopsphere/config/OpenApiConfig.java  |   0
+ .../java/com/shopsphere/config/SecurityConfig.java |   0
+ .../shopsphere/controller/AddressController.java   |   0
+ .../controller/AdminOrderController.java           |   0
+ .../com/shopsphere/controller/AuthController.java  |   0
+ .../com/shopsphere/controller/CartController.java  |  16 [32m+[m[31m-[m
+ .../shopsphere/controller/CategoryController.java  |   0
+ .../com/shopsphere/controller/OrderController.java |   0
+ .../shopsphere/controller/ProductController.java   |   0
+ .../com/shopsphere/controller/UserController.java  |   0
+ .../shopsphere/dto/request/AddCartItemRequest.java |   2 [32m+[m
+ .../com/shopsphere/dto/request/AddressRequest.java |   0
+ .../shopsphere/dto/request/CategoryRequest.java    |   0
+ .../shopsphere/dto/request/CreateOrderRequest.java |   0
+ .../com/shopsphere/dto/request/LoginRequest.java   |   0
+ .../com/shopsphere/dto/request/ProductRequest.java |   9 [32m++[m
+ .../dto/request/ProductVariantRequest.java         |  41 [32m+++++[m
+ .../shopsphere/dto/request/RegisterRequest.java    |   0
+ .../dto/request/UpdateCartItemRequest.java         |   0
+ .../dto/request/UpdateOrderStatusRequest.java      |   0
+ .../shopsphere/dto/request/UpdateUserRequest.java  |   0
+ .../shopsphere/dto/response/AddressResponse.java   |   0
+ .../com/shopsphere/dto/response/ApiResponse.java   |   0
+ .../com/shopsphere/dto/response/AuthResponse.java  |   0
+ .../shopsphere/dto/response/CartItemResponse.java  |   5 [32m+[m
+ .../com/shopsphere/dto/response/CartResponse.java  |   0
+ .../shopsphere/dto/response/CategoryResponse.java  |   0
+ .../com/shopsphere/dto/response/ErrorResponse.java |   0
+ .../shopsphere/dto/response/OrderItemResponse.java |   2 [32m+[m
+ .../com/shopsphere/dto/response/OrderResponse.java |   3 [32m+[m
+ .../com/shopsphere/dto/response/PageResponse.java  |   0
+ .../shopsphere/dto/response/ProductResponse.java   |   3 [32m+[m
+ .../dto/response/ProductVariantResponse.java       |  19 [32m+++[m
+ .../com/shopsphere/dto/response/UserResponse.java  |   0
+ .../main/java/com/shopsphere/entity/Address.java   |   0
+ .../src/main/java/com/shopsphere/entity/Cart.java  |   0
+ .../main/java/com/shopsphere/entity/CartItem.java  |   8 [32m+[m[31m-[m
+ .../main/java/com/shopsphere/entity/Category.java  |   0
+ .../src/main/java/com/shopsphere/entity/Order.java |   9 [32m++[m
+ .../main/java/com/shopsphere/entity/OrderItem.java |  13 [32m++[m
+ .../main/java/com/shopsphere/entity/Product.java   |   9 [32m++[m
+ .../java/com/shopsphere/entity/ProductVariant.java |  47 [32m++++++[m
+ .../shopsphere/entity/ShippingAddressSnapshot.java |   0
+ .../src/main/java/com/shopsphere/entity/User.java  |   0
+ .../com/shopsphere/entity/enums/OrderStatus.java   |   0
+ .../com/shopsphere/entity/enums/PaymentStatus.java |   0
+ .../java/com/shopsphere/entity/enums/Role.java     |   0
+ .../com/shopsphere/event/QikinkOrderRequested.java |   4 [32m+[m
+ .../exception/EmailAlreadyExistsException.java     |   0
+ .../exception/GlobalExceptionHandler.java          |   0
+ .../exception/InsufficientStockException.java      |   0
+ .../exception/InvalidCredentialsException.java     |   0
+ .../exception/InvalidOrderStateException.java      |   0
+ .../exception/ResourceNotFoundException.java       |   0
+ .../exception/UnauthorizedException.java           |   0
+ .../integration/qikink/QikinkClient.java           | 147 [32m+++++++++++++++++[m
+ .../integration/qikink/QikinkOrderListener.java    |  44 [32m+++++[m
+ .../integration/qikink/QikinkOrderResult.java      |   4 [32m+[m
+ .../java/com/shopsphere/mapper/AddressMapper.java  |   0
+ .../java/com/shopsphere/mapper/CartMapper.java     |   5 [32m+[m
+ .../java/com/shopsphere/mapper/CategoryMapper.java |   0
+ .../java/com/shopsphere/mapper/OrderMapper.java    |   5 [32m+[m
+ .../java/com/shopsphere/mapper/ProductMapper.java  |  16 [32m++[m
+ .../java/com/shopsphere/mapper/UserMapper.java     |   0
+ .../shopsphere/repository/AddressRepository.java   |   0
+ .../shopsphere/repository/CartItemRepository.java  |   4 [32m+[m[31m-[m
+ .../com/shopsphere/repository/CartRepository.java  |   0
+ .../shopsphere/repository/CategoryRepository.java  |   0
+ .../shopsphere/repository/OrderItemRepository.java |   1 [32m+[m
+ .../com/shopsphere/repository/OrderRepository.java |   0
+ .../shopsphere/repository/ProductRepository.java   |   0
+ .../com/shopsphere/repository/UserRepository.java  |   0
+ .../security/CustomUserDetailsService.java         |   0
+ .../com/shopsphere/security/JwtAuthEntryPoint.java |   0
+ .../security/JwtAuthenticationFilter.java          |   0
+ .../main/java/com/shopsphere/security/JwtUtil.java |   0
+ .../com/shopsphere/security/UserPrincipal.java     |   0
+ .../com/shopsphere/service/AddressService.java     |   0
+ .../java/com/shopsphere/service/AuthService.java   |   0
+ .../java/com/shopsphere/service/CartService.java   |   4 [32m+[m[31m-[m
+ .../com/shopsphere/service/CategoryService.java    |   0
+ .../java/com/shopsphere/service/OrderService.java  |   0
+ .../com/shopsphere/service/ProductService.java     |   0
+ .../java/com/shopsphere/service/UserService.java   |   0
+ .../service/impl/AddressServiceImpl.java           |   0
+ .../shopsphere/service/impl/AuthServiceImpl.java   |   0
+ .../shopsphere/service/impl/CartServiceImpl.java   |  43 [32m+++[m[31m--[m
+ .../service/impl/CategoryServiceImpl.java          |   0
+ .../shopsphere/service/impl/OrderServiceImpl.java  |  58 [32m++++++[m[31m-[m
+ .../service/impl/ProductServiceImpl.java           | 180 [32m+++++++++++++++++++++[m
+ .../shopsphere/service/impl/UserServiceImpl.java   |   0
+ .../java/com/shopsphere/util/SecurityUtils.java    |   0
+ .../src/main/resources/application-test.yml        |   0
+ .../src/main/resources/application.yml             |  56 [32m+++++++[m
+ .../db/manual/20261002_allow_cart_variants.sql     |  20 [32m+++[m
+ .../ProductAuthorizationIntegrationTest.java       |   0
+ .../integration/qikink/QikinkClientTest.java       | 119 [32m++++++++++++++[m
+ .../qikink/QikinkOrderListenerTest.java            |  51 [32m++++++[m
+ .../java/com/shopsphere/security/JwtUtilTest.java  |   0
+ .../shopsphere/service/AuthServiceImplTest.java    |   0
+ .../shopsphere/service/CartServiceImplTest.java    |  40 [32m++++[m[31m-[m
+ .../shopsphere/service/OrderServiceImplTest.java   |  50 [32m++++++[m
+ .../shopsphere/service/ProductServiceImplTest.java |  49 [32m+++++[m[31m-[m
+ ShopSphere-frontend/index.html                     |  35 [32m++++[m
+ .../service/impl/ProductServiceImpl.java           |  98 [31m-----------[m
+ 111 files changed, 1185 insertions(+), 130 deletions(-)

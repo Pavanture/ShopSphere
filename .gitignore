@@ -1,8 +1,8 @@
 .idea/
 *.iml
 
-elmavia-backend/target/
-elmavia-frontend/node_modules/
-elmavia-frontend/dist/
+ShopSphere-backend/target/
+ShopSphere-frontend/node_modules/
+ShopSphere-frontend/dist/
 
 .env

@@ -580,7 +580,7 @@ async function loadProducts(
     const response = await api.getProducts({
       keyword: currentKeyword,
       categoryId: currentCategoryId,
-      page: currentPage,
+      page: currentPage - 1,
       size: PAGE_SIZE,
       sortBy: "id",
       direction: "asc",
@@ -676,6 +676,7 @@ async function loadProducts(
 
 function productCard(product, index) {
   const id = product.id;
+  const hasVariants = Array.isArray(product.variants) && product.variants.length > 0;
 
   const name =
     product.name ||
@@ -786,8 +787,9 @@ function productCard(product, index) {
           data-product-id="${escapeHtml(
             String(id)
           )}"
+          data-has-variants="${hasVariants}"
         >
-          <span>ADD TO BAG</span>
+          <span>${hasVariants ? "CHOOSE OPTIONS" : "ADD TO BAG"}</span>
           <strong>+</strong>
         </button>
 
@@ -820,6 +822,11 @@ function bindProductInteractions(container) {
     .forEach((button) => {
       button.addEventListener("click", async (event) => {
         event.stopPropagation();
+
+          if (button.dataset.hasVariants === "true") {
+            navigate(`/product/${button.dataset.productId}`);
+            return;
+          }
 
         await quickAddToCart(
           button.dataset.productId,

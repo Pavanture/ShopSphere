@@ -87,8 +87,8 @@ export const api = {
   // ---- Cart ----
   getCart: () => request('/cart'),
   addCartItem: (data) => request('/cart/items', { method: 'POST', body: data }),
-  updateCartItem: (productId, data) => request(`/cart/items/${productId}`, { method: 'PUT', body: data }),
-  removeCartItem: (productId) => request(`/cart/items/${productId}`, { method: 'DELETE' }),
+  updateCartItem: (cartItemId, data) => request(`/cart/items/${cartItemId}`, { method: 'PUT', body: data }),
+  removeCartItem: (cartItemId) => request(`/cart/items/${cartItemId}`, { method: 'DELETE' }),
   clearCart: () => request('/cart', { method: 'DELETE' }),
 
   // ---- Addresses ----

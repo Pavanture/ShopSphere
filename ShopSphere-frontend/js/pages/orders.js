@@ -99,7 +99,7 @@ function draw(container, order) {
               <div class="row-thumb"></div>
               <div class="row-info">
                 <div class="name">${escapeHtml(i.productName)}</div>
-                <div class="meta">Qty ${i.quantity} × ${formatMoney(i.priceAtPurchase)}</div>
+                <div class="meta">${[i.variantColor, i.variantSize].filter(Boolean).map(escapeHtml).join(' · ')}${i.variantColor || i.variantSize ? ' · ' : ''}Qty ${i.quantity} × ${formatMoney(i.priceAtPurchase)}</div>
               </div>
               <span class="ticket">${formatMoney(i.lineTotal)}</span>
             </div>`
@@ -119,6 +119,9 @@ function draw(container, order) {
         <h2 class="section-title">Status</h2>
         <div class="summary-line"><span>Order</span><span class="status-pill ${order.orderStatus}">${order.orderStatus}</span></div>
         <div class="summary-line"><span>Payment</span><span class="status-pill ${order.paymentStatus}">${order.paymentStatus}</span></div>
+        ${order.qikinkStatus ? `<div class="summary-line"><span>Qikink</span><span>${escapeHtml(order.qikinkStatus)}</span></div>` : ''}
+        ${order.qikinkOrderId ? `<div class="summary-line"><span>Qikink order</span><span>${escapeHtml(order.qikinkOrderId)}</span></div>` : ''}
+        ${order.qikinkError ? `<p class="muted" style="font-size:12px;margin-top:8px;">Qikink: ${escapeHtml(order.qikinkError)}</p>` : ''}
         <div class="summary-line total"><span>Total</span><span>${formatMoney(order.totalAmount)}</span></div>
         ${canCancel ? '<button class="btn btn-danger" style="width:100%;margin-top:12px;" id="cancel-order-btn">Cancel order</button>' : ''}
       </div>

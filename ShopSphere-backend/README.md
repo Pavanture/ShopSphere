@@ -1,6 +1,6 @@
 # ShopSphere — E-Commerce Backend
 
-A production-style e-commerce REST API built with **Java 21** and **Spring Boot**. ShopSphere implements user authentication, a product catalog, a shopping cart, and a transactional order pipeline, with JWT-based security, role-based authorization, global exception handling, and OpenAPI documentation.
+A production-style e-commerce REST API built with **Java 17** and **Spring Boot**. ShopSphere implements user authentication, a product catalog, a shopping cart, and a transactional order pipeline, with JWT-based security, role-based authorization, global exception handling, and OpenAPI documentation.
 
 > Built as a portfolio / interview-ready reference implementation of a layered Spring Boot backend.
 
@@ -26,7 +26,7 @@ A production-style e-commerce REST API built with **Java 21** and **Spring Boot*
 
 | Layer | Technology |
 |---|---|
-| Language | Java 21 |
+| Language | Java 17 |
 | Framework | Spring Boot 3.3 |
 | Web | Spring Web (MVC) |
 | Persistence | Spring Data JPA + Hibernate |
@@ -271,14 +271,14 @@ Redeploy the frontend. Set the resulting frontend origin as `CORS_ALLOWED_ORIGIN
 
 ### Prerequisites
 
-- Java 21 (JDK)
+- Java 17 (JDK)
 - Maven 3.9+
 - MySQL 8.x running locally or reachable
 
 ### 1. Clone / unzip the project
 
 ```bash
-cd shopsphere
+cd ShopSphere-backend
 ```
 
 ### 2. Create the database (optional — the app can auto-create it)
@@ -289,11 +289,19 @@ CREATE DATABASE shopsphere_db;
 
 ### 3. Configure environment variables
 
-Copy `.env.example` to `.env` (or export the variables in your shell / IDE run config):
+Use `.env.example` as a reference for the required variables. Spring Boot does not load `.env` files automatically, so export the variables in your shell or add them to your IDE run configuration. For example, in PowerShell:
 
-```bash
-cp .env.example .env
+```powershell
+$env:DB_HOST = 'localhost'
+$env:DB_PORT = '3306'
+$env:DB_NAME = 'shopsphere_db'
+$env:DB_USERNAME = 'root'
+$env:DB_PASSWORD = 'your-db-password'
+$env:JWT_SECRET = 'replace-with-a-long-random-base64-secret-at-least-256-bits'
+$env:CORS_ALLOWED_ORIGINS = 'http://localhost:3000'
 ```
+
+Keep real secrets out of source control. Set the same variables in your IDE run configuration when launching from the IDE.
 
 ```text
 DB_HOST=localhost

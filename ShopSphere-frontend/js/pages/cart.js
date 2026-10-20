@@ -65,11 +65,15 @@ function renderRows(container, cart) {
   rowsEl.innerHTML = cart.items
     .map(
       (item) => `
-      <div class="row-item" data-product-id="${item.product.id}">
-        <div class="row-thumb"></div>
+      <div class="row-item" data-cart-item-id="${item.id}">
+        <div class="row-thumb">
+          ${item.imageUrl
+            ? `<img src="${escapeHtml(item.imageUrl)}" alt="${escapeHtml(item.product.name)}" />`
+            : `<span>${escapeHtml(placeholderThumb(item.product.name))}</span>`}
+        </div>
         <div class="row-info">
           <div class="name">${escapeHtml(item.product.name)}</div>
-          <div class="meta">${formatMoney(item.product.price)} each · ${item.product.stock} in stock</div>
+          <div class="meta">${[item.colorName, item.size].filter(Boolean).map(escapeHtml).join(' · ')}${item.colorName || item.size ? ' · ' : ''}${formatMoney(item.product.price)} each · ${item.availableStock} in stock</div>
         </div>
         <div class="qty-control">
           <button type="button" class="qty-minus">−</button>
@@ -84,18 +88,18 @@ function renderRows(container, cart) {
     .join('');
 
   rowsEl.querySelectorAll('.row-item').forEach((row) => {
-    const productId = row.dataset.productId;
-    const item = cart.items.find((i) => String(i.product.id) === productId);
+    const cartItemId = row.dataset.cartItemId;
+    const item = cart.items.find((i) => String(i.id) === cartItemId);
 
     row.querySelector('.qty-minus').addEventListener('click', () =>
-      updateQuantity(container, productId, Math.max(1, item.quantity - 1))
+      updateQuantity(container, cartItemId, Math.max(1, item.quantity - 1))
     );
     row.querySelector('.qty-plus').addEventListener('click', () =>
-      updateQuantity(container, productId, item.quantity + 1)
+      updateQuantity(container, cartItemId, item.quantity + 1)
     );
     row.querySelector('.remove-item').addEventListener('click', async () => {
       try {
-        await api.removeCartItem(productId);
+        await api.removeCartItem(cartItemId);
         showToast('Removed from cart.', 'ok');
         refreshCartBadge();
         renderCart(container);
@@ -106,9 +110,9 @@ function renderRows(container, cart) {
   });
 }
 
-async function updateQuantity(container, productId, quantity) {
+async function updateQuantity(container, cartItemId, quantity) {
   try {
-    await api.updateCartItem(productId, { quantity });
+    await api.updateCartItem(cartItemId, { quantity });
     refreshCartBadge();
     renderCart(container);
   } catch (err) {

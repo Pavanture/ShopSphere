@@ -28,7 +28,7 @@ python -m http.server 3000
 
 Then open **http://localhost:3000** in your browser.
 
-> Using a different port? Update `CORS_ALLOWED_ORIGINS` in the backend's `.env` to match, and restart the backend.
+> Using a different port? Set the backend's `CORS_ALLOWED_ORIGINS` environment variable to the frontend's exact origin (for example, `http://localhost:5500`) and restart the backend. Spring Boot does not load `.env` files automatically; set this variable in your shell or IDE run configuration.
 
 ## 3. Point it at a different backend (optional)
 
@@ -39,6 +39,10 @@ If your API isn't on `http://localhost:8080/api`, edit the inline script in `ind
   window.SHOPSPHERE_API_BASE = 'http://localhost:8080/api';
 </script>
 ```
+
+## Deploying on Vercel
+
+Create a Vercel project from the repository and set its **Root Directory** to `ShopSphere-frontend`. This frontend is static HTML/CSS/JavaScript and needs no build command. After deploying the backend, set `window.SHOPSPHERE_API_BASE` in `index.html` to the backend's public URL followed by `/api`, then redeploy the frontend. Set the backend's `CORS_ALLOWED_ORIGINS` to the exact deployed frontend origin. See the backend README for deploying the API with the Vercel Container Runtime and configuring Clever Cloud MySQL.
 
 ## Project structure
 
