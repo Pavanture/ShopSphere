@@ -72,7 +72,6 @@ public class ProductServiceImpl implements ProductService {
                 .stock(request.getStock())
                 .category(category)
                 .imageUrl(request.getImageUrl())
-                .qikinkSku(request.getQikinkSku())
                 .build();
 
             replaceVariants(product, request.getVariants(), request.getStock());
@@ -91,7 +90,6 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(request.getPrice());
         product.setCategory(category);
         product.setImageUrl(request.getImageUrl());
-        product.setQikinkSku(request.getQikinkSku());
         replaceVariants(product, request.getVariants(), request.getStock());
 
         return productMapper.toResponse(productRepository.save(product));
@@ -144,7 +142,6 @@ public class ProductServiceImpl implements ProductService {
                 variant.setSize(request.getSize().trim());
                 variant.setImageUrl(request.getImageUrl().trim());
                 variant.setStock(request.getStock());
-                variant.setQikinkSku(request.getQikinkSku() == null ? null : request.getQikinkSku().trim());
                 updatedVariants.add(variant);
             }
         }

@@ -8,7 +8,6 @@ import com.shopsphere.exception.InvalidOrderStateException;
 import com.shopsphere.exception.ResourceNotFoundException;
 import com.shopsphere.mapper.AddressMapper;
 import com.shopsphere.mapper.OrderMapper;
-import com.shopsphere.integration.qikink.QikinkClient;
 import com.shopsphere.repository.AddressRepository;
 import com.shopsphere.repository.CartRepository;
 import com.shopsphere.repository.OrderRepository;
@@ -21,7 +20,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.ApplicationEventPublisher;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -45,9 +43,6 @@ class OrderServiceImplTest {
     @Mock private AddressRepository addressRepository;
     @Mock private OrderMapper orderMapper;
     @Mock private AddressMapper addressMapper;
-    @Mock private QikinkClient qikinkClient;
-    @Mock private ApplicationEventPublisher eventPublisher;
-
     @InjectMocks
     private OrderServiceImpl orderService;
 
@@ -109,7 +104,6 @@ class OrderServiceImplTest {
                 .product(product)
                 .colorName("Black")
                 .size("M")
-                .qikinkSku("QIK-TEE-BLK-M")
                 .stock(2)
                 .build();
         product.setStock(2);
@@ -131,21 +125,8 @@ class OrderServiceImplTest {
         OrderItem savedItem = orderCaptor.getValue().getOrderItems().get(0);
         assertEquals("Black", savedItem.getVariantColor());
         assertEquals("M", savedItem.getVariantSize());
-        assertEquals("QIK-TEE-BLK-M", savedItem.getQikinkSku());
         assertEquals(1, variant.getStock());
         assertEquals(1, product.getStock());
-    }
-
-    @Test
-    void createOrder_shouldRequireQikinkSku_whenFulfillmentIsEnabled() {
-        CreateOrderRequest request = CreateOrderRequest.builder().addressId(1L).build();
-
-        when(qikinkClient.isEnabled()).thenReturn(true);
-        when(cartRepository.findByUserId(1L)).thenReturn(Optional.of(cart));
-        when(addressRepository.findByIdAndUserId(1L, 1L)).thenReturn(Optional.of(address));
-
-        assertThrows(InvalidOrderStateException.class, () -> orderService.createOrder(1L, request));
-        verify(orderRepository, never()).save(any(Order.class));
     }
 
     @Test

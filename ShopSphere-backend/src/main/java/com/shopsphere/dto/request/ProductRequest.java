@@ -34,9 +34,6 @@ public class ProductRequest {
 
     private String imageUrl;
 
-    @Size(max = 50, message = "Qikink SKU must not exceed 50 characters")
-    private String qikinkSku;
-
     @Valid
     @Size(max = 100, message = "A product cannot have more than 100 variants")
     private List<ProductVariantRequest> variants;

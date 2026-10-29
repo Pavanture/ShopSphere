@@ -46,15 +46,6 @@ public class Order {
     @Builder.Default
     private PaymentStatus paymentStatus = PaymentStatus.PENDING;
 
-    @Column(name = "qikink_order_id", length = 40)
-    private String qikinkOrderId;
-
-    @Column(name = "qikink_status", length = 30)
-    private String qikinkStatus;
-
-    @Column(name = "qikink_error", length = 500)
-    private String qikinkError;
-
     // Snapshot of shipping info at time of purchase (not a live FK to Address)
     @Embedded
     private ShippingAddressSnapshot shippingAddress;

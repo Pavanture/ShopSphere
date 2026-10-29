@@ -6,7 +6,6 @@ import com.shopsphere.dto.response.OrderResponse;
 import com.shopsphere.dto.response.PageResponse;
 import com.shopsphere.entity.*;
 import com.shopsphere.entity.enums.OrderStatus;
-import com.shopsphere.event.QikinkOrderRequested;
 import com.shopsphere.exception.InsufficientStockException;
 import com.shopsphere.exception.InvalidOrderStateException;
 import com.shopsphere.exception.ResourceNotFoundException;
@@ -14,10 +13,8 @@ import com.shopsphere.mapper.AddressMapper;
 import com.shopsphere.mapper.OrderMapper;
 import com.shopsphere.repository.*;
 import com.shopsphere.service.OrderService;
-import com.shopsphere.integration.qikink.QikinkClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -53,8 +50,6 @@ public class OrderServiceImpl implements OrderService {
     private final AddressRepository addressRepository;
     private final OrderMapper orderMapper;
     private final AddressMapper addressMapper;
-    private final QikinkClient qikinkClient;
-    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     @Transactional
@@ -76,11 +71,6 @@ public class OrderServiceImpl implements OrderService {
             ProductVariant variant = cartItem.getVariant();
             if (!product.getVariants().isEmpty() && variant == null) {
                 throw new InvalidOrderStateException("Choose a color and size for product '" + product.getName() + "'");
-            }
-            String qikinkSku = variant == null ? product.getQikinkSku() : variant.getQikinkSku();
-            if (qikinkClient.isEnabled() && (qikinkSku == null || qikinkSku.isBlank())) {
-                throw new InvalidOrderStateException(
-                        "Qikink SKU is missing for product '" + product.getName() + "'");
             }
             int availableStock = variant == null ? product.getStock() : variant.getStock();
             if (availableStock < cartItem.getQuantity()) {
@@ -112,7 +102,6 @@ public class OrderServiceImpl implements OrderService {
                 .orderItems(new ArrayList<>())
                 .shippingAddress(addressMapper.toSnapshot(shippingAddress))
                 .totalAmount(BigDecimal.ZERO)
-                .qikinkStatus(qikinkClient.isEnabled() ? "PENDING" : null)
                 .build();
 
         BigDecimal total = BigDecimal.ZERO;
@@ -128,9 +117,6 @@ public class OrderServiceImpl implements OrderService {
                     .productName(product.getName())
                     .variantColor(cartItem.getVariant() == null ? null : cartItem.getVariant().getColorName())
                     .variantSize(cartItem.getVariant() == null ? null : cartItem.getVariant().getSize())
-                    .qikinkSku(cartItem.getVariant() == null
-                        ? product.getQikinkSku()
-                        : cartItem.getVariant().getQikinkSku())
                     .priceAtPurchase(product.getPrice())
                     .quantity(cartItem.getQuantity())
                     .build();
@@ -154,10 +140,6 @@ public class OrderServiceImpl implements OrderService {
         // 6. Clear the cart.
         cart.getItems().clear();
         cartRepository.save(cart);
-
-        if (qikinkClient.isEnabled()) {
-            eventPublisher.publishEvent(new QikinkOrderRequested(savedOrder.getId()));
-        }
 
         log.info("Order {} created for user {} with total {}", savedOrder.getId(), userId, total);
 

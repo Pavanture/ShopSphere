@@ -34,14 +34,6 @@ app:
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
 
-  qikink:
-    enabled: ${QIKINK_ENABLED:false}
-    base-url: ${QIKINK_BASE_URL:https://sandbox.qikink.com}
-    client-id: ${QIKINK_CLIENT_ID:}
-    client-secret: ${QIKINK_CLIENT_SECRET:}
-    gateway: ${QIKINK_GATEWAY:COD}
-    shipping: ${QIKINK_SHIPPING:1}
-
 springdoc:
   api-docs:
     path: /v3/api-docs

@@ -79,7 +79,6 @@ class ProductServiceImplTest {
                 .price(BigDecimal.valueOf(499.99))
                 .stock(5)
                 .categoryId(1L)
-                .qikinkSku("QIK-TEE-BLK-M")
                 .build();
 
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
@@ -91,7 +90,6 @@ class ProductServiceImplTest {
         assertNotNull(response);
         ArgumentCaptor<Product> productCaptor = ArgumentCaptor.forClass(Product.class);
         verify(productRepository, times(1)).save(productCaptor.capture());
-        assertEquals("QIK-TEE-BLK-M", productCaptor.getValue().getQikinkSku());
     }
 
         @Test
@@ -107,7 +105,6 @@ class ProductServiceImplTest {
                     .colorValue("#111111")
                     .size("M")
                     .imageUrl("https://images.example/black-m.jpg")
-                    .qikinkSku("QIK-TEE-BLK-M")
                     .stock(4)
                     .build(),
                 ProductVariantRequest.builder()
@@ -115,7 +112,6 @@ class ProductServiceImplTest {
                     .colorValue("#FFFFFF")
                     .size("L")
                     .imageUrl("https://images.example/white-l.jpg")
-                    .qikinkSku("QIK-TEE-WHT-L")
                     .stock(3)
                     .build()))
             .build();

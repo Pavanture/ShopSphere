@@ -20,7 +20,6 @@ public class ProductResponse {
     private Integer stock;
     private CategoryResponse category;
     private String imageUrl;
-    private String qikinkSku;
     private List<ProductVariantResponse> variants;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

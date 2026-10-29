@@ -15,5 +15,4 @@ public class ProductVariantResponse {
     private String size;
     private String imageUrl;
     private Integer stock;
-    private String qikinkSku;
 }

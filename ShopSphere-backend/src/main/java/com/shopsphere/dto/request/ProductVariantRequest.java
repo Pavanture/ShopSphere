@@ -36,6 +36,4 @@ public class ProductVariantRequest {
     @Min(value = 0, message = "Variant stock cannot be negative")
     private Integer stock;
 
-    @Size(max = 50, message = "Qikink SKU must not exceed 50 characters")
-    private String qikinkSku;
 }

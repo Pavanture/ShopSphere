@@ -40,9 +40,6 @@ public class OrderItem {
     @Column(name = "variant_size", length = 30)
     private String variantSize;
 
-    @Column(name = "qikink_sku", length = 50)
-    private String qikinkSku;
-
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal priceAtPurchase;
 

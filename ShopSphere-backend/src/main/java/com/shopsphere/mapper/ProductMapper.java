@@ -22,7 +22,6 @@ public class ProductMapper {
                 .stock(product.getStock())
                 .category(categoryMapper.toResponse(product.getCategory()))
                 .imageUrl(product.getImageUrl())
-                .qikinkSku(product.getQikinkSku())
                 .variants(product.getVariants().stream().map(this::toVariantResponse).toList())
                 .createdAt(product.getCreatedAt())
                 .updatedAt(product.getUpdatedAt())
@@ -37,7 +36,6 @@ public class ProductMapper {
                 .size(variant.getSize())
                 .imageUrl(variant.getImageUrl())
                 .stock(variant.getStock())
-                .qikinkSku(variant.getQikinkSku())
                 .build();
     }
 }

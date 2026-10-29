@@ -20,9 +20,6 @@ public class OrderResponse {
     private BigDecimal totalAmount;
     private OrderStatus orderStatus;
     private PaymentStatus paymentStatus;
-    private String qikinkOrderId;
-    private String qikinkStatus;
-    private String qikinkError;
     private AddressResponse shippingAddress;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

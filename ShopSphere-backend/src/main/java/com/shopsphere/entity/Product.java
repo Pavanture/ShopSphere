@@ -45,9 +45,6 @@ public class Product {
     @Column(name = "image_url", length = 1000)
     private String imageUrl;
 
-    @Column(name = "qikink_sku", length = 50)
-    private String qikinkSku;
-
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<ProductVariant> variants = new ArrayList<>();

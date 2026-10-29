@@ -315,12 +315,6 @@ JWT_EXPIRATION=86400000
 
 CORS_ALLOWED_ORIGINS=http://localhost:3000
 
-QIKINK_ENABLED=false
-QIKINK_BASE_URL=https://sandbox.qikink.com
-QIKINK_CLIENT_ID=
-QIKINK_CLIENT_SECRET=
-QIKINK_GATEWAY=COD
-QIKINK_SHIPPING=1
 ```
 
 > Never commit real secrets. `JWT_SECRET` should be a long, random value in any real deployment — generate one with `openssl rand -base64 48`.
@@ -369,33 +363,11 @@ Tests run against an in-memory H2 database (see `application-test.yml`) and do n
 | `CORS_ALLOWED_ORIGINS` | Comma-separated allowed origins | `http://localhost:3000` |
 | `SERVER_PORT` | HTTP port | `8080` |
 | `DDL_AUTO` | Hibernate schema strategy | `update` |
-| `QIKINK_ENABLED` | Submit committed orders to Qikink | `false` |
-| `QIKINK_BASE_URL` | Qikink API host (sandbox by default) | `https://sandbox.qikink.com` |
-| `QIKINK_CLIENT_ID` | Qikink API client ID | *(secret/config)* |
-| `QIKINK_CLIENT_SECRET` | Qikink API client secret | *(secret)* |
-| `QIKINK_GATEWAY` | Qikink payment type | `COD` or `Prepaid` |
-| `QIKINK_SHIPPING` | Qikink handles shipping (`1`) or self-shipping (`0`) | `1` |
-
-### Qikink order fulfillment
-
-The catalog remains in ShopSphere. Add the matching SKU from Qikink **My Products** to each ShopSphere product in Admin. Qikink catalog import is not available in the documented Open API. When `QIKINK_ENABLED=true`, a committed ShopSphere order is submitted to Qikink using `search_from_my_products=1`; the Qikink order ID and submission status are saved on the local order. Submission failures are recorded without undoing the customer's ShopSphere order.
-
-Products can have colour/size variants. Add one Admin variant row per sellable colour/size combination with its public image URL, available stock, and matching Qikink My Products SKU. The chosen variant and its SKU are carried through cart, order, and Qikink fulfillment. Qikink catalog import is not available in the documented Open API. Keep the client secret in environment variables and use the sandbox host for testing.
+Products are added and managed manually from the Admin product form. Add each colour/size combination as a variant with its public image URL and available stock.
 
 Hibernate creates the variant table and new cart index on startup. On an existing MySQL database, run `src/main/resources/db/manual/20261002_allow_cart_variants.sql` once after restarting the backend to remove the legacy unique index on `(cart_id, product_id)`. This keeps existing cart rows and allows multiple variants of the same product in one cart.
 
-For PowerShell, set the variables in the same terminal before starting Spring Boot (a `.env` file by itself is not automatically loaded):
-
-```powershell
-$env:QIKINK_ENABLED = 'true'
-$env:QIKINK_BASE_URL = 'https://sandbox.qikink.com'
-$env:QIKINK_CLIENT_ID = '<your sandbox client ID>'
-$env:QIKINK_CLIENT_SECRET = '<your sandbox client secret>'
-$env:QIKINK_GATEWAY = 'COD'
-mvn spring-boot:run
-```
-
-Use equivalent environment variables in the IDE run configuration. Keep real credentials out of source control and chat.
+On an existing database, run `src/main/resources/db/manual/20261029_remove_qikink.sql` once to remove the obsolete Qikink columns and variant SKU index. Back up the database before applying this destructive schema cleanup.
 
 ---
 

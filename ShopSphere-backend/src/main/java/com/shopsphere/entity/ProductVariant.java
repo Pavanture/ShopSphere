@@ -5,8 +5,7 @@ import lombok.*;
 
 @Entity
 @Table(name = "product_variants", uniqueConstraints = {
-        @UniqueConstraint(name = "uk_product_variant_color_size", columnNames = {"product_id", "color_name", "size"}),
-        @UniqueConstraint(name = "uk_product_variant_qikink_sku", columnNames = "qikink_sku")
+        @UniqueConstraint(name = "uk_product_variant_color_size", columnNames = {"product_id", "color_name", "size"})
 }, indexes = @Index(name = "idx_product_variant_product", columnList = "product_id"))
 @Getter
 @Setter
@@ -37,9 +36,6 @@ public class ProductVariant {
 
     @Column(nullable = false)
     private Integer stock;
-
-    @Column(name = "qikink_sku", length = 50)
-    private String qikinkSku;
 
     public void decreaseStock(int quantity) {
         this.stock -= quantity;
